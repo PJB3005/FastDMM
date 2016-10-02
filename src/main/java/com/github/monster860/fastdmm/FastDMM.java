@@ -75,6 +75,8 @@ public class FastDMM extends JFrame implements ActionListener, TreeSelectionList
 	private JMenuItem menuItemNew;
 	private JMenuItem menuItemOpen;
 	private JMenuItem menuItemSave;
+	private JMenuItem menuItemUndo;
+	private JMenuItem menuItemRedo;
 	
 	private JPopupMenu currPopup;
 	
@@ -200,6 +202,22 @@ public class FastDMM extends JFrame implements ActionListener, TreeSelectionList
             menuItem.setActionCommand("open_dme");
             menuItem.addActionListener(FastDMM.this);
             menu.add(menuItem);
+
+			menu = new JMenu("Edit");
+			menu.setMnemonic(KeyEvent.VK_0);
+			menuBar.add(menu);
+
+			menuItemUndo = new JMenuItem("Undo", KeyEvent.VK_U);
+			menuItemUndo.setActionCommand("undo");
+			menuItemUndo.addActionListener(FastDMM.this);
+			menuItemUndo.setEnabled(false);
+			menu.add(menuItemUndo);
+
+			menuItemRedo = new JMenuItem("Redo", KeyEvent.VK_R);
+			menuItemRedo.setActionCommand("redo");
+			menuItemRedo.addActionListener(FastDMM.this);
+			menuItemRedo.setEnabled(false);
+			menu.add(menuItemRedo);
 
             menu = new JMenu("Options");
             menu.setMnemonic(KeyEvent.VK_O);
@@ -335,6 +353,8 @@ return false;
 				try {
 					newDmm = new DMM(dmmList.getSelectedValue(), objTree, this);
 					dmm = newDmm;
+					menuItemRedo.setEnabled(true);
+					menuItemUndo.setEnabled(true);
 				} catch (Exception ex) {
 					StringWriter sw = new StringWriter();
 					PrintWriter pw = new PrintWriter(sw);
